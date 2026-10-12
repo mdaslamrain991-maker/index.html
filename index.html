@@ -1,0 +1,313 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Class 9 MSBSHSE Timetable & Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#4f46e5',
+                        surface: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased h-screen flex flex-col max-w-md mx-auto relative overflow-hidden shadow-2xl border-x border-slate-200">
+
+    <header class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-5 py-4 flex items-center justify-between shadow-md z-20 shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center font-bold text-lg shadow-inner">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-base leading-tight">Class 9 Maharashtra Board</h1>
+                <p class="text-xs text-indigo-100 opacity-90" id="header-subtitle">MSBSHSE Academic Planner</p>
+            </div>
+        </div>
+        <button onclick="openInfoModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition text-sm">
+            <i class="fa-solid fa-circle-info"></i>
+        </button>
+    </header>
+
+    <main id="app-view" class="flex-1 overflow-y-auto p-4 pb-24 hide-scrollbar">
+        <!-- Dynamic views injected here via JS -->
+    </main>
+
+    <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-3 py-2 flex justify-around items-center z-20 shadow-lg">
+        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center py-1 px-3 text-indigo-600 transition">
+            <i class="fa-solid fa-house text-lg"><span></span></i>
+            <span class="text-[10px] font-medium mt-1">Home</span>
+        </button>
+        <button onclick="switchTab('timetable')" id="nav-timetable" class="flex flex-col items-center py-1 px-3 text-slate-400 hover:text-slate-600 transition">
+            <i class="fa-solid fa-calendar-days text-lg"></i>
+            <span class="text-[10px] font-medium mt-1">Timetable</span>
+        </button>
+        <button onclick="switchTab('planner')" id="nav-planner" class="flex flex-col items-center py-1 px-3 text-slate-400 hover:text-slate-600 transition">
+            <i class="fa-solid fa-clock text-lg"></i>
+            <span class="text-[10px] font-medium mt-1">1-Hr Plan</span>
+        </button>
+        <button onclick="switchTab('homework')" id="nav-homework" class="flex flex-col items-center py-1 px-3 text-slate-400 hover:text-slate-600 transition">
+            <i class="fa-solid fa-list-check text-lg"></i>
+            <span class="text-[10px] font-medium mt-1">Homework</span>
+        </button>
+        <button onclick="switchTab('progress')" id="nav-progress" class="flex flex-col items-center py-1 px-3 text-slate-400 hover:text-slate-600 transition">
+            <i class="fa-solid fa-chart-pie text-lg"></i>
+            <span class="text-[10px] font-medium mt-1">Progress</span>
+        </button>
+    </nav>
+
+    <div id="info-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm max-h-[85vh] overflow-y-auto p-6 shadow-2xl animate-fade-in">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-mobile-screen-button text-indigo-600"></i> App Guide & APK
+                </h3>
+                <button onclick="closeInfoModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+                <div>
+                    <h4 class="font-semibold text-slate-800 text-sm mb-1 text-indigo-600"><i class="fa-solid fa-school"></i> School Timings</h4>
+                    <p>7:00 AM to 12:30 PM (Maharashtra State Board Schedule with 8 regular periods, Morning Assembly, and Recess).</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-slate-800 text-sm mb-1 text-indigo-600"><i class="fa-solid fa-book-open"></i> 11 Maharashtra Board Subjects</h4>
+                    <p>English, Hindi, Urdu, Mathematics 1 (Algebra), Mathematics 2 (Geometry), Science 1, Science 2, Civics, History, Geography, Marathi.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-slate-800 text-sm mb-1 text-indigo-600"><i class="fa-solid fa-cloud-arrow-up"></i> Publishing on GitHub Pages</h4>
+                    <ol class="list-decimal pl-4 space-y-1">
+                        <li>Create a public GitHub repository.</li>
+                        <li>Upload this `index.html` file into the repository.</li>
+                        <li>Go to repository <strong>Settings > Pages</strong>.</li>
+                        <li>Select `main` branch, save, and your live app link will be generated instantly!</li>
+                    </ol>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-slate-800 text-sm mb-1 text-indigo-600"><i class="fa-brands fa-android"></i> Converting to Android APK</h4>
+                    <p>Use free online web-to-APK wrappers like <strong>GoNative.io</strong>, <strong>WebViewGold</strong>, or <strong>PWABuilder.com</strong> by simply inputting your published GitHub Pages URL to generate a standalone installable Android App (.apk).</p>
+                </div>
+            </div>
+
+            <button onclick="closeInfoModal()" class="w-full mt-5 bg-indigo-600 text-white font-semibold py-2.5 rounded-xl shadow-md hover:bg-indigo-700 transition">
+                Got it, Let's Study!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Default 11 Maharashtra Board Subjects with styling tokens
+        const SUBJECTS = {
+            "English": { name: "English", icon: "fa-book", color: "bg-blue-500", text: "text-blue-500", light: "bg-blue-50" },
+            "Marathi": { name: "Marathi", icon: "fa-language", color: "bg-amber-500", text: "text-amber-500", light: "bg-amber-50" },
+            "Hindi": { name: "Hindi", icon: "fa-book-atlas", color: "bg-orange-500", text: "text-orange-500", light: "bg-orange-50" },
+            "Urdu": { name: "Urdu", icon: "fa-feather", color: "bg-emerald-500", text: "text-emerald-500", light: "bg-emerald-50" },
+            "Mathematics 1": { name: "Maths 1 (Algebra)", icon: "fa-square-root-variable", color: "bg-purple-500", text: "text-purple-500", light: "bg-purple-50" },
+            "Mathematics 2": { name: "Maths 2 (Geometry)", icon: "fa-shapes", color: "bg-violet-500", text: "text-violet-500", light: "bg-violet-50" },
+            "Science 1": { name: "Science 1 (Phy/Chem)", icon: "fa-atom", color: "bg-rose-500", text: "text-rose-500", light: "bg-rose-50" },
+            "Science 2": { name: "Science 2 (Bio/Env)", icon: "fa-dna", color: "bg-pink-500", text: "text-pink-500", light: "bg-pink-50" },
+            "History": { name: "History", icon: "fa-landmark", color: "bg-amber-700", text: "text-amber-700", light: "bg-amber-50" },
+            "Civics": { name: "Civics", icon: "fa-scale-balanced", color: "bg-cyan-600", text: "text-cyan-600", light: "bg-cyan-50" },
+            "Geography": { name: "Geography", icon: "fa-earth-asia", color: "bg-teal-600", text: "text-teal-600", light: "bg-teal-50" },
+            "Break": { name: "Recess / Break", icon: "fa-mug-hot", color: "bg-slate-400", text: "text-slate-500", light: "bg-slate-100" },
+            "Assembly": { name: "Morning Assembly", icon: "fa-bell", color: "bg-indigo-400", text: "text-indigo-500", light: "bg-indigo-50" }
+        };
+
+        // Default Full Weekly Timetable (Monday to Saturday, 7:00 AM to 12:30 PM)
+        const DEFAULT_TIMETABLE = {
+            Monday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 1", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 1", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "English", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "History", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "Marathi", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "Hindi", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "Civics", type: "Subject" }
+            ],
+            Tuesday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 2", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 2", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "Geography", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "English", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "Urdu", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "Marathi", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "History", type: "Subject" }
+            ],
+            Wednesday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 1", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 1", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "Hindi", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "Geography", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "Civics", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "English", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "Marathi", type: "Subject" }
+            ],
+            Thursday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 2", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 2", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "History", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "Marathi", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "English", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "Science 1", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "Urdu", type: "Subject" }
+            ],
+            Friday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 1", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 1", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "Geography", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "Hindi", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "Marathi", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "Civics", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "English", type: "Subject" }
+            ],
+            Saturday: [
+                { time: "07:00 - 07:15", subject: "Assembly", type: "Assembly" },
+                { time: "07:15 - 08:00", subject: "Mathematics 2", type: "Subject" },
+                { time: "08:00 - 08:45", subject: "Science 2", type: "Subject" },
+                { time: "08:45 - 09:30", subject: "English", type: "Subject" },
+                { time: "09:30 - 09:50", subject: "Break", type: "Break" },
+                { time: "09:50 - 10:35", subject: "History", type: "Subject" },
+                { time: "10:35 - 11:20", subject: "Marathi", type: "Subject" },
+                { time: "11:20 - 12:05", subject: "Urdu", type: "Subject" },
+                { time: "12:05 - 12:30", subject: "Geography", type: "Subject" }
+            ]
+        };
+
+        // Default 1-Hour After School Study Planner (Monday - Saturday)
+        const DEFAULT_STUDY_PLANNER = {
+            Monday: { time: "4:00 PM - 5:00 PM", task: "Solve 5 Algebra Problems (Maths 1)", subject: "Mathematics 1", completed: false },
+            Tuesday: { time: "4:00 PM - 5:00 PM", task: "Revise Physics Laws & Numerical (Science 1)", subject: "Science 1", completed: false },
+            Wednesday: { time: "4:00 PM - 5:00 PM", task: "Marathi Grammar & Writing Skills practice", subject: "Marathi", completed: false },
+            Thursday: { time: "4:00 PM - 5:00 PM", task: "Geometry Theorem Proofs & Practice (Maths 2)", subject: "Mathematics 2", completed: false },
+            Friday: { time: "4:00 PM - 5:00 PM", task: "History Chapter Q&A & Map pointing", subject: "History", completed: false },
+            Saturday: { time: "4:00 PM - 5:00 PM", task: "English Composition & Grammar Exercises", subject: "English", completed: false }
+        };
+
+        // Default Homework Tasks
+        const DEFAULT_HOMEWORK = [
+            { id: 1, text: "Maths 1 Practice Set 2.1 complete", subject: "Mathematics 1", done: false },
+            { id: 2, text: "Science 2 Biology diagram labeling", subject: "Science 2", done: false },
+            { id: 3, text: "Geography Map reading assignment", subject: "Geography", done: false }
+        ];
+
+        // Default Progress tracking (percentage completed per subject 0-100)
+        const DEFAULT_PROGRESS = {
+            "English": 40, "Marathi": 55, "Hindi": 50, "Urdu": 60,
+            "Mathematics 1": 45, "Mathematics 2": 35,
+            "Science 1": 65, "Science 2": 70,
+            "History": 50, "Civics": 80, "Geography": 60
+        };
+
+        // State initialization with localStorage fallback
+        let currentTab = 'home';
+        let timetableData = JSON.parse(localStorage.getItem('class9_timetable')) || DEFAULT_TIMETABLE;
+        let studyPlannerData = JSON.parse(localStorage.getItem('class9_planner')) || DEFAULT_STUDY_PLANNER;
+        let homeworkData = JSON.parse(localStorage.getItem('class9_homework')) || DEFAULT_HOMEWORK;
+        let progressData = JSON.parse(localStorage.getItem('class9_progress')) || DEFAULT_PROGRESS;
+        let selectedDay = getCurrentDayName();
+
+        function getCurrentDayName() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const day = days[new Date().getDay()];
+            return (day === 'Sunday') ? 'Monday' : day; // Default to Monday if Sunday
+        }
+
+        function saveData() {
+            localStorage.setItem('class9_timetable', JSON.stringify(timetableData));
+            localStorage.setItem('class9_planner', JSON.stringify(studyPlannerData));
+            localStorage.setItem('class9_homework', JSON.stringify(homeworkData));
+            localStorage.setItem('class9_progress', JSON.stringify(progressData));
+        }
+
+        // Navigation Controller
+        function switchTab(tab) {
+            currentTab = tab;
+            ['home', 'timetable', 'planner', 'homework', 'progress'].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                if (t === tab) {
+                    btn.className = "flex flex-col items-center py-1 px-3 text-indigo-600 transition scale-105 font-bold";
+                } else {
+                    btn.className = "flex flex-col items-center py-1 px-3 text-slate-400 hover:text-slate-600 transition";
+                }
+            });
+            renderView();
+        }
+
+        function renderView() {
+            const container = document.getElementById('app-view');
+            container.innerHTML = '';
+            if (currentTab === 'home') renderHomeView(container);
+            else if (currentTab === 'timetable') renderTimetableView(container);
+            else if (currentTab === 'planner') renderPlannerView(container);
+            else if (currentTab === 'homework') renderHomeworkView(container);
+            else if (currentTab === 'progress') renderProgressView(container);
+        }
+
+        // --- HOME VIEW ---
+        function renderHomeView(container) {
+            const today = getCurrentDayName();
+            const periods = timetableData[today] || [];
+            const planner = studyPlannerData[today] || { time: "4:00 PM - 5:00 PM", task: "No special task", subject: "General", completed: false };
+            const pendingHomeworkCount = homeworkData.filter(h => !h.done).length;
+
+            container.innerHTML = `
+                <div class="space-y-4 animate-fade-in">
+                    <!-- Greeting & Quick Status Card -->
+                    <div class="bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl p-5 text-white shadow-md relative overflow-hidden">
+                        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-medium"><i class="fa-solid fa-calendar-day mr-1"></i> Today: ${today}</span>
+                                <h2 class="text-xl font-bold mt-2">Class 9 Maharashtra Board</h2>
+                                <p class="text-xs text-indigo-100 mt-1">School Timings: 7:00 AM – 12:30 PM</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-indigo-200">Pending HW</span>
+                                <div class="text-2xl font-extrabold">${pendingHomeworkCount}</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-white/15 flex justify-between items-center text-xs">
+                            <span><i class="fa-solid fa-clock mr-1"></i> 1-Hr After School Study Ready</span>
+                            <button onclick="switchTab('planner')" class="bg-white text-indigo-600 px-3 py-1 rounded-lg font-semibold shadow hover:bg-indigo-50 transition">
